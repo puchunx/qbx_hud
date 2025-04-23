@@ -63,25 +63,25 @@
                         <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up" class="bg-active-tab">
                             <q-tab-panel name="hud">
                                 <div class="q-mb-md">
-                                    <div class="text-h6 q-mb-md">Reset Hud <img class="brand-logo" align="right" src="./brand-logo.svg"></img></div>
+                                    <div class="text-h6 q-mb-md">{{ locale.reset.reset }}<img class="brand-logo" align="right" src="./brand-logo.svg"></img></div>
                                     <div class="q-pa-md q-gutter-sm">
-                                        <q-btn v-on:click="resetStorage($event)" :loading="progress[0].loading" :percentage="progress[0].percentage" text-color="textbutton" color="bgbutton" @click="startComputing(0)" style="width: 150px"> Reset Settings
-                                        <template v-slot:loading> <q-spinner-gears class="on-left"></q-spinner-gears> Resetting... </template></q-btn>
-                                        <div class="text-h7 q-mb-md">If you want to reset your settings back to default; click this shiny button! <br> (you will have to relog for your menu to reset changes successfully)</div>
-                                        <q-btn v-on:click="restartHud($event)" :loading="progress[1].loading" :percentage="progress[1].percentage" text-color="textbutton" color="bgbutton" @click="startComputing(1)" style="width: 150px"> Reset Hud
-                                        <template v-slot:loading> <q-spinner-gears class="on-left"></q-spinner-gears> Resetting... </template></q-btn>
-                                        <div class="text-h7 q-mb-md">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</div>
+                                        <q-btn v-on:click="resetStorage($event)" :loading="progress[0].loading" :percentage="progress[0].percentage" text-color="textbutton" color="bgbutton" @click="startComputing(0)" style="width: 150px"> {{ locale.reset.reset_settings }}
+                                        <template v-slot:loading> <q-spinner-gears class="on-left"></q-spinner-gears> {{ locale.reset.resetting }} </template></q-btn>
+                                        <div class="text-h7 q-mb-md">{{ locale.reset.reset_settings_description }}</div>
+                                        <q-btn v-on:click="restartHud($event)" :loading="progress[1].loading" :percentage="progress[1].percentage" text-color="textbutton" color="bgbutton" @click="startComputing(1)" style="width: 150px"> {{ locale.reset.reset_hud }}
+                                        <template v-slot:loading> <q-spinner-gears class="on-left"></q-spinner-gears> {{ locale.reset.resetting }} </template></q-btn>
+                                        <div class="text-h7 q-mb-md">{{ locale.reset.reset_hud_description }}</div>
                                     </div>
                                     <hr>
-                                    <div class="text-h6 q-mb-md">Options</div>
+                                    <div class="text-h6 q-mb-md">{{ locale.options.options }}</div>
                                     <div class="text-h7">
                                         <q-item borderless tag="label" v-ripple>
                                             <q-item-section avatar>
                                                 <q-checkbox v-model="isOutMapChecked" v-on:click="showOutMap($event)" color="checkbox" val="1"></q-checkbox>
                                             </q-item-section>
                                             <q-item-section>
-                                                <q-item-label>Show Minimap Only in Vehicle</q-item-label>
-                                                <q-item-label class="text-h7" caption>Disabling this will always keep your minimap on your screen</q-item-label>
+                                                <q-item-label>{{ locale.options.show_minimap }}</q-item-label>
+                                                <q-item-label class="text-h7" caption>{{ locale.options.show_minimap_description }}</q-item-label>
                                             </q-item-section>
                                         </q-item>
                                         <q-item borderless tag="label" v-ripple>
@@ -89,8 +89,8 @@
                                                 <q-checkbox v-model="isOutCompassChecked" v-on:click="showOutCompass($event)" color="checkbox" val="2"></q-checkbox>
                                             </q-item-section>
                                             <q-item-section>
-                                                <q-item-label>Show Compass Only in Vehicle</q-item-label>
-                                                <q-item-label class="text-h7" caption>Disabling this will always keep your compass on your screen</q-item-label>
+                                                <q-item-label>{{ locale.options.show_compass }}</q-item-label>
+                                                <q-item-label class="text-h7" caption>{{ locale.options.show_compass_description }}</q-item-label>
                                             </q-item-section>
                                         </q-item>
                                         <q-item borderless tag="label" v-ripple>
@@ -98,53 +98,53 @@
                                                 <q-checkbox v-model="isCompassFollowChecked" v-on:click="showFollowCompass($event)" color="checkbox" val="3"></q-checkbox>
                                             </q-item-section>
                                             <q-item-section>
-                                                <q-item-label>Show Compass Follow Cam</q-item-label>
-                                                <q-item-label class="text-h7" caption>Disabling this will make it so you can no longer use your mouse to rotate the compass around</q-item-label>
+                                                <q-item-label>{{ locale.options.follow_cam }}</q-item-label>
+                                                <q-item-label class="text-h7" caption>{{ locale.options.follow_cam_description }}</q-item-label>
                                             </q-item-section>
                                         </q-item>
                                     </div>
                                     <hr>
-                                    <div class="text-h6 q-mb-md">Notifications</div>
+                                    <div class="text-h6 q-mb-md">{{ locale.notifications.notifications }}</div>
                                     <div class="text-h7">
-                                        <q-checkbox v-on:click="showMapNotif($event)" label='Map Notifications Enabled' v-model="isMapNotifChecked" color="checkbox" val="7" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="showFuelAlert($event)" label='Low Fuel Alert Enabled' v-model="isLowFuelChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="showCinematicNotif($event)" label='Cinematic Mode Notifications Enabled' v-model="isCinematicNotifChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="showMapNotif($event)" :label='locale.notifications.map' v-model="isMapNotifChecked" color="checkbox" val="7" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="showFuelAlert($event)" :label='locale.notifications.fuel' v-model="isLowFuelChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="showCinematicNotif($event)" :label='locale.notifications.cinematic' v-model="isCinematicNotifChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
                                     </div>
                                 </div>                        
                                 <hr>
-                                <div class="text-h6 q-mb-md">Status</div>
+                                <div class="text-h6 q-mb-md">{{ locale.status.status }}</div>
                                 <div class="text-h7">
-                                    <q-checkbox v-on:click="dynamicHealth($event)" label='Show Health always' v-model="isDynamicHealthChecked" color="checkbox" val="10" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="dynamicArmor($event)" label='Show Armor always' v-model="isDynamicArmorChecked" color="checkbox" val="11" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="dynamicHunger($event)" label='Show Hunger always' v-model="isDynamicHungerChecked" color="checkbox" val="12" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="dynamicThirst($event)" label='Show Thirst always' v-model="isDynamicThirstChecked" color="checkbox" val="13" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="dynamicStress($event)" label='Show Stress always' v-model="isDynamicStressChecked" color="checkbox" val="14" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="dynamicOxygen($event)" label='Show Oxygen always' v-model="isDynamicOxygenChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicHealth($event)" :label='locale.status.health' v-model="isDynamicHealthChecked" color="checkbox" val="10" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicArmor($event)" :label='locale.status.armor' v-model="isDynamicArmorChecked" color="checkbox" val="11" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicHunger($event)" :label='locale.status.hunger' v-model="isDynamicHungerChecked" color="checkbox" val="12" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicThirst($event)" :label='locale.status.thirst' v-model="isDynamicThirstChecked" color="checkbox" val="13" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicStress($event)" :label='locale.status.stress' v-model="isDynamicStressChecked" color="checkbox" val="14" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicOxygen($event)" :label='locale.status.oxygen' v-model="isDynamicOxygenChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
                                 </div>
                                 <hr>
-                                <div class="text-h6 q-mb-md">Vehicle</div>
+                                <div class="text-h6 q-mb-md">{{ locale.vehicle.vehicle }}</div>
                                 <div class="text-h7">
-                                    <q-toggle v-on:click="changeFPS($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`Speedometer FPS ${isChangeFPSChecked}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeFPSChecked"></q-toggle>
-                                    <div class="text-h7 q-mb-md-d">Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.</div>
-                                    <q-toggle v-on:click="ToggleMapShape($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`Minimap ${isToggleMapShapeChecked}`" unchecked-icon="radio_button_unchecked" false-value="circle" true-value="square" checked-icon="check_box_outline_blank" v-model="isToggleMapShapeChecked"></q-toggle>
-                                    <div class="text-h7 q-mb-md-d">Whether it's square or circle you desire, you have the ability to choose!</div>
-                                    <q-checkbox v-on:click="HideMap($event)" label='Minimap Enabled' v-model="isHideMapChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="ToggleMapBorders($event)" label='Minimap Borders Enabled' v-model="isToggleMapBordersChecked" color="checkbox" val="16" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="dynamicEngine($event)" label='Show Engine always' v-model="isDynamicEngineChecked" color="checkbox" val="17" style="display: flex;"></q-checkbox>
-                                    <q-checkbox v-on:click="dynamicNitro($event)" label='Show Nitro always' v-model="isDynamicNitroChecked" color="checkbox" val="18" style="display: flex;"></q-checkbox>
+                                    <q-toggle v-on:click="changeFPS($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`${locale.vehicle.fps} ${isChangeFPSChecked == 'Optimized' ? locale.vehicle.optimized : locale.vehicle.sync }`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeFPSChecked"></q-toggle>
+                                    <div class="text-h7 q-mb-md-d">{{ locale.vehicle.fps_description }}</div>
+                                    <q-toggle v-on:click="ToggleMapShape($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`${locale.vehicle.minimap} ${isToggleMapShapeChecked == 'square' ? locale.vehicle.square : locale.vehicle.circle }`" unchecked-icon="radio_button_unchecked" false-value="circle" true-value="square" checked-icon="check_box_outline_blank" v-model="isToggleMapShapeChecked"></q-toggle>
+                                    <div class="text-h7 q-mb-md-d">{{ locale.vehicle.minimap_description }}</div>
+                                    <q-checkbox v-on:click="HideMap($event)" :label='locale.vehicle.hide_map' v-model="isHideMapChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="ToggleMapBorders($event)" :label='locale.vehicle.toggle_border' v-model="isToggleMapBordersChecked" color="checkbox" val="16" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicEngine($event)" :label='locale.vehicle.engine' v-model="isDynamicEngineChecked" color="checkbox" val="17" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicNitro($event)" :label='locale.vehicle.nitro' v-model="isDynamicNitroChecked" color="checkbox" val="18" style="display: flex;"></q-checkbox>
                                 </div>
                                 <hr>
-                                <div class="text-h6 q-mb-md">Compass</div>
+                                <div class="text-h6 q-mb-md">{{ locale.compass.compass }}</div>
                                 <div class="text-h7">
-                                    <q-toggle v-on:click="changeCompassFPS($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`Compass FPS ${isChangeCompassFPSChecked}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeCompassFPSChecked"></q-toggle>
-                                    <div class="text-h7 q-mb-md-d">Synced FPS option will result in less optimization, but keep your compass in real time, however, it will also be more demanding on your machine.</div>
+                                    <q-toggle v-on:click="changeCompassFPS($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`${locale.compass.fps} ${isChangeCompassFPSChecked == 'Optimized' ? locale.compass.optimized : locale.compass.sync}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeCompassFPSChecked"></q-toggle>
+                                    <div class="text-h7 q-mb-md-d">{{ locale.compass.fps_description }}</div>
                                     <q-item borderless tag="label" v-ripple>
                                         <q-item-section avatar>
                                             <q-checkbox v-on:click="showCompassBase($event)" v-model="isShowCompassChecked" color="checkbox" val="19"></q-checkbox>
                                         </q-item-section>
                                         <q-item-section >
-                                            <q-item-label>Compass Enabled</q-item-label>
-                                            <q-item-label class="text-h7" caption>Disabling this will make it so you can't see the compass navigation</q-item-label>
+                                            <q-item-label>{{ locale.compass.show_compass }}</q-item-label>
+                                            <q-item-label class="text-h7" caption>{{ locale.compass.show_compass_description }}</q-item-label>
                                         </q-item-section>
                                     </q-item>
                                     <q-item borderless tag="label" v-ripple>
@@ -152,8 +152,8 @@
                                             <q-checkbox v-on:click="showStreetsNames($event)" v-model="isShowStreetsChecked" color="checkbox" val="20"></q-checkbox>
                                         </q-item-section>
                                         <q-item-section>
-                                            <q-item-label>Show Street Names Enabled</q-item-label>
-                                            <q-item-label class="text-h7" caption>Disabling this will make it so you can't see street names / locations</q-item-label>
+                                            <q-item-label>{{ locale.compass.show_street }}</q-item-label>
+                                            <q-item-label class="text-h7" caption>{{ locale.compass.show_street_description }}</q-item-label>
                                         </q-item-section>
                                     </q-item>
                                     <q-item borderless tag="label" v-ripple>
@@ -161,8 +161,8 @@
                                             <q-checkbox v-on:click="showPointerIndex($event)" v-model="isPointerShowChecked" color="checkbox" val="21"></q-checkbox>
                                         </q-item-section>
                                         <q-item-section>
-                                            <q-item-label>Show Compass Pointer Enabled</q-item-label>
-                                            <q-item-label class="text-h7" caption>Disabling this will make it so you can't see your pointer index to pinpoint your exact cardinal directions</q-item-label>
+                                            <q-item-label>{{ locale.compass.show_pointer }}</q-item-label>
+                                            <q-item-label class="text-h7" caption>{{ locale.compass.show_pointer_description }}</q-item-label>
                                         </q-item-section>
                                     </q-item>
                                     <q-item borderless tag="label" v-ripple>
@@ -170,15 +170,15 @@
                                             <q-checkbox v-on:click="showDegreesNum($event)" v-model="isDegreesShowChecked" color="checkbox" val="22"></q-checkbox>
                                         </q-item-section>
                                         <q-item-section>
-                                            <q-item-label>Show Compass Degrees Enabled</q-item-label>
-                                            <q-item-label class="text-h7" caption>Disabling this will make it so you can't see your exact degrees</q-item-label>
+                                            <q-item-label>{{ locale.compass.show_degrees }}</q-item-label>
+                                            <q-item-label class="text-h7" caption>{{ locale.compass.show_degrees_description }}</q-item-label>
                                         </q-item-section>
                                     </q-item>
                                 </div>
                                 <hr>
-                                <div class="text-h6 q-mb-md">Cinematic Mode</div>
+                                <div class="text-h6 q-mb-md">{{ locale.cinematic.cinematic }}</div>
                                 <div class="text-h7">
-                                    <q-checkbox v-on:click="cinematicMode($event)" label='Enabled' v-model="isCineamticModeChecked" color="checkbox" val="23" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="cinematicMode($event)" :label='locale.cinematic.enabled' v-model="isCineamticModeChecked" color="checkbox" val="23" style="display: flex;"></q-checkbox>
                                 </div>
                                 <br>
                             </q-tab-panel>
