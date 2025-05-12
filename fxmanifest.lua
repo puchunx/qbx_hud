@@ -23,10 +23,6 @@ ui_page 'html/index.html'
 
 files {
     'html/*',
-    'html/index.html',
-    'html/styles.css',
-    'html/responsive.css',
-    'html/app.js',
     'locales/*.json',
     'config/client.lua',
     'config/shared.lua',
